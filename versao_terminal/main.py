@@ -4,7 +4,8 @@ import sys
 from time import *
 
 TEMPO_CARREGAMENTO = 1.5
-
+lista_clientes = []
+lista_jogos = []
  #definição de funcoes
  
 def exibir_menu_principal(): # MENU PRINCIPAL
@@ -24,6 +25,7 @@ def exibir_menu_principal(): # MENU PRINCIPAL
     elif opcao == "2":
         exibir_menu_locadora()
     elif opcao == "0":
+        animacao_espera(TEMPO_CARREGAMENTO, "ENCERRANDO PROGRAMA...")
         sys.exit()
     else:
         print("\nOpção inválida! Tente novamente.\n")
@@ -62,28 +64,31 @@ def exibir_menu_locadora(): # MENU LOCADORA
     print("__________________________") 
     print("MENU LOCADORA\n")
     print("1 - Cadastrar cliente")
-    print("2 - Consultar estoque")
-    print("3 - Alterar dados")
-    print("4 - Adicionar/excluir jogo")
+    print("2 - Adicionar jogo")
+    print("3 - Excluir jogo")
+    print("4 - Consultar estoque")
     print("5 - Transações")
     print("6 - Registro de Aluguel")
-    print("7 - Voltar")
+    print("7 - Alterar dados")
+    print("8 - Voltar")
     print("__________________________\n") 
     opcao = input("Escolha uma opção: ")
 
     if opcao == "1":
-        cadastrar_cliente()
+        cadastrar_cliente(lista_clientes)
     elif opcao == "2":
-        consultar_estoque()
+        adicionar_jogo(lista_jogos)
     elif opcao == "3":
-        alterar_dados()
+        excluir_jogo(lista_jogos)
     elif opcao == "4":
-        adicionar_excluir_jogo()
+        consultar_estoque()
     elif opcao == "5":
         transacoes()
     elif opcao == "6":
         registro_aluguel()
-    elif opcao == "7": #Voltar
+    elif opcao == "7": 
+        alterar_dados()
+    elif opcao == "8": #Voltar
         clear()
         animacao_espera(TEMPO_CARREGAMENTO, "REDIRECIONANDO PARA MENU PRINCIPAL")
         exibir_menu_principal()
@@ -104,21 +109,59 @@ def retornar_jogo():
     print("Opção 'Retornar jogo' selecionada.")
 
 # FUNCOES LOCADORA
-def cadastrar_cliente():
+def cadastrar_cliente(clientes):
     clear()
-    print("Opção 'Cadastrar cliente' selecionada.")
+    nome = input("Digite o nome do cliente: ")
+    cpf = input("Digite o CPF do cliente: ")
+    email = input("Digite o e-mail do cliente: ")
+
+    cliente = {'nome': nome, 'cpf': cpf, 'email': email}
+    clientes.append(cliente)
+    print(clientes)
+
+
 
 def consultar_estoque():
     clear()
     print("Opção 'Consultar estoque' selecionada.")
 
-def alterar_dados():
+def adicionar_jogo(jogos):
     clear()
-    print("Opção 'Alterar dados' selecionada.")
+    jogo_id = input("Digite o id do jogo: ")
+    nome = input("Digite o nome do jogo: ")
+    qtd = input("Numero de unidades: ")
+    
+    jogo = {'jogo_id': jogo_id, 'nome': nome, 'qtd': qtd}
+    jogos.append(jogo)
+    print(jogos)
 
-def adicionar_excluir_jogo():
+def excluir_jogo(lista_jogos):
+    # Função auxiliar para exibir os jogos
     clear()
-    print("Opção 'Adicionar/excluir jogo' selecionada.")
+    if not lista_jogos:
+        print("A lista de jogos está vazia.")
+    else:    
+        exibir_jogos()
+
+        jogo_id = input("Digite o ID do jogo que você deseja excluir: ")
+
+        for jogo in lista_jogos:
+            if jogo['jogo_id'] == jogo_id:
+                lista_jogos.remove(jogo)
+                print("Jogo removido com sucesso!")
+                break
+        else:
+            print("Jogo não encontrado!")
+
+        exibir_jogos()
+    
+def exibir_jogos(): #Auxiliar para excluir jogos
+    if not lista_jogos:
+        print("A lista de jogos está vazia.")
+    else:
+        print("Jogos disponíveis:")
+        for jogo in lista_jogos:
+            print(f"ID: {jogo['jogo_id']} | Nome: {jogo['nome']} | Quantidade: {jogo['qtd']}") 
 
 def transacoes():
     clear()
@@ -128,6 +171,10 @@ def registro_aluguel():
     clear()
     print("Opção 'Registro de Aluguel' selecionada.")
 
+def alterar_dados():
+    clear()
+    print("Opção 'Alterar dados' selecionada.")
+    
 # OUTRAS FUNÇOES
 def animacao_espera(segundos, mensagem):
     animacao = "|/-\\"
@@ -153,7 +200,7 @@ def continua(menu):
             exibir_menu_locadora()    
     elif opcao == "2": # NAO
         animacao_espera(TEMPO_CARREGAMENTO, "ENCERRANDO PROGRAMA...")
-        sys.exit(0)
+        sys.exit()
     else:
         print("\nOpção inválida! Tente novamente.\n")
         animacao_espera(TEMPO_CARREGAMENTO, "Aguarde um momento...")
