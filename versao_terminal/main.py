@@ -1,3 +1,4 @@
+#TODO Criar JSON ou XML com jogos "enviados" pelo fornecedor, para criar funcoes de transacoes, aluguel etc
 import os
 import platform
 import sys
@@ -6,8 +7,8 @@ from time import *
 TEMPO_CARREGAMENTO = 1.5
 lista_clientes = []
 lista_jogos = []
- #definição de funcoes
- 
+
+ #definição de funcoes 
 def exibir_menu_principal(): # MENU PRINCIPAL
     clear()
     print("__________________________")    
@@ -64,7 +65,7 @@ def exibir_menu_locadora(): # MENU LOCADORA
     print("__________________________") 
     print("MENU LOCADORA\n")
     print("1 - Cadastrar cliente")
-    print("2 - Adicionar jogo")
+    print("2 - Cadastrar jogo")
     print("3 - Excluir jogo")
     print("4 - Consultar estoque")
     print("5 - Transações")
@@ -77,11 +78,11 @@ def exibir_menu_locadora(): # MENU LOCADORA
     if opcao == "1":
         cadastrar_cliente(lista_clientes)
     elif opcao == "2":
-        adicionar_jogo(lista_jogos)
+        cadastrar_jogo(lista_jogos)
     elif opcao == "3":
         excluir_jogo(lista_jogos)
     elif opcao == "4":
-        consultar_estoque()
+        consultar_estoque(lista_jogos)
     elif opcao == "5":
         transacoes()
     elif opcao == "6":
@@ -103,10 +104,10 @@ def exibir_menu_locadora(): # MENU LOCADORA
 # FUNCOES CLIENTE
 def alugar_jogo():
     clear()
-    print("Opção 'Alugar jogo' selecionada.")
+    print("Opção 'Alugar jogo' selecionada.\n")
 def retornar_jogo():
     clear()
-    print("Opção 'Retornar jogo' selecionada.")
+    print("Opção 'Retornar jogo' selecionada.\n")
 
 # FUNCOES LOCADORA
 def cadastrar_cliente(clientes):
@@ -119,29 +120,26 @@ def cadastrar_cliente(clientes):
     clientes.append(cliente)
     print(clientes)
 
-
-
-def consultar_estoque():
-    clear()
-    print("Opção 'Consultar estoque' selecionada.")
-
-def adicionar_jogo(jogos):
+def cadastrar_jogo(jogos):
+    print("Opção 'Cadastrar jogo' selecionada.\n")
     clear()
     jogo_id = input("Digite o id do jogo: ")
     nome = input("Digite o nome do jogo: ")
     qtd = input("Numero de unidades: ")
+    preco_aluguel = input("Preço de aluguel(diária): R$ ") 
     
-    jogo = {'jogo_id': jogo_id, 'nome': nome, 'qtd': qtd}
+    jogo = {'jogo_id': jogo_id, 'nome': nome, 'qtd': qtd, 'preco_aluguel': preco_aluguel}
     jogos.append(jogo)
     print(jogos)
 
 def excluir_jogo(lista_jogos):
     # Função auxiliar para exibir os jogos
     clear()
+    print("Opção 'Excluir jogo' selecionada.\n")
     if not lista_jogos:
         print("A lista de jogos está vazia.")
     else:    
-        exibir_jogos()
+        exibir_jogos(lista_jogos)
 
         jogo_id = input("Digite o ID do jogo que você deseja excluir: ")
 
@@ -155,25 +153,36 @@ def excluir_jogo(lista_jogos):
 
         exibir_jogos()
     
-def exibir_jogos(): #Auxiliar para excluir jogos
+def exibir_jogos(lista_jogos): #Auxiliar para excluir jogos
     if not lista_jogos:
         print("A lista de jogos está vazia.")
     else:
         print("Jogos disponíveis:")
+        i = 1
         for jogo in lista_jogos:
-            print(f"ID: {jogo['jogo_id']} | Nome: {jogo['nome']} | Quantidade: {jogo['qtd']}") 
+            print(f"{i}. ID: {jogo['jogo_id']} | Nome: {jogo['nome']} | Quantidade: {jogo['qtd']} | Preço de aluguel(diária): R$ {jogo['preco_aluguel']}") 
+            i += 1
+
+
+def consultar_estoque(jogos):
+    clear()
+    print("Opção 'Consultar estoque' selecionada.\n")
+    if not jogos:
+        print("Estoque vazio.")
+    else:
+        exibir_jogos(jogos)
 
 def transacoes():
     clear()
-    print("Opção 'Transações' selecionada.")
+    print("Opção 'Transações' selecionada.\n")
 
 def registro_aluguel():
     clear()
-    print("Opção 'Registro de Aluguel' selecionada.")
+    print("Opção 'Registro de Aluguel' selecionada.\n")
 
 def alterar_dados():
     clear()
-    print("Opção 'Alterar dados' selecionada.")
+    print("Opção 'Alterar dados' selecionada.\n")
     
 # OUTRAS FUNÇOES
 def animacao_espera(segundos, mensagem):
@@ -215,4 +224,3 @@ def clear():
         
 #main
 exibir_menu_principal()
-
