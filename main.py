@@ -544,7 +544,4 @@ exibir_menu_principal()
 
 
 
-lista_jogos = ler_estoque("estoque.json")
-exibir_menu_principal()
-
 
