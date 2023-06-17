@@ -1,0 +1,12 @@
+[
+    {
+        "nome": "Thomas",
+        "cpf": "192.292.489-40",
+        "email": "thomas.mello30@gmail.com"
+    },
+    {
+        "nome": "Fulano",
+        "cpf": "192.393.291-40",
+        "email": "fulano@gmail.com"
+    }
+]

@@ -12,12 +12,12 @@ lista_jogos = []
 
 # Definição de funções
 
-def registra_estoque(lista, nome_arquivo):  # Escreve em um arquivo json com formato JSON
+def registra_json(lista, nome_arquivo):  # Escreve a lista no arquivo json 
     with open(nome_arquivo, "w") as arquivo:
         json.dump(lista, arquivo, ensure_ascii=False, indent=4)
 
 
-def ler_estoque(nome_arquivo):
+def ler_json(nome_arquivo): # le o json e retorna-o como uma lista
     if os.path.isfile(nome_arquivo):  # Verifica se o arquivo existe
         try:
             with open(nome_arquivo, 'r') as arquivo:
@@ -51,7 +51,9 @@ def exibir_menu_principal():  # MENU PRINCIPAL
     elif opcao == "0":
         animacao_espera(TEMPO_CARREGAMENTO, "ENCERRANDO PROGRAMA...")
         if lista_jogos:
-            registra_estoque(lista_jogos, "estoque.json")
+            registra_json(lista_jogos, "estoque.json")
+        if lista_clientes:
+            registra_json(lista_clientes, "clientes.json")    
         sys.exit()
     else:
         print("\nOpção inválida! Tente novamente.\n")
@@ -87,6 +89,7 @@ def exibir_menu_cliente():  # MENU CLIENTE
 def exibir_menu_locadora():  # MENU LOCADORA
     clear()
     global lista_jogos
+    global lista_clientes
 
     print("Estoque atual:")
     print(lista_jogos)
@@ -104,7 +107,7 @@ def exibir_menu_locadora():  # MENU LOCADORA
     opcao = input("Escolha uma opção: ")
 
     if opcao == "1":
-        cadastrar_cliente(lista_clientes)
+        lista_clientes = cadastrar_cliente(lista_clientes)
     elif opcao == "2":
         lista_jogos = cadastrar_jogo(lista_jogos)
         print("Lista jogos apos a chamada da função cadastrar jogo")
@@ -142,18 +145,19 @@ def alugar_jogo():
 def retornar_jogo():
     clear()
     print("Opção 'Retornar jogo' selecionada.\n")
-
+  
 
 # FUNCOES LOCADORA
-def cadastrar_cliente(clientes):
+def cadastrar_cliente(lista_clientes):
     clear()
     nome = input("Digite o nome do cliente: ")
     cpf = input("Digite o CPF do cliente: ")
     email = input("Digite o e-mail do cliente: ")
 
-    cliente = {'nome': nome, 'cpf': cpf, 'email': email}
-    clientes.append(cliente)
-    print(clientes)
+    clientes = {'nome': nome, 'cpf': cpf, 'email': email}
+    lista_clientes.append(clientes)
+    print(lista_clientes)
+    return lista_clientes
 
 
 def cadastrar_jogo(lista_jogos):
@@ -201,8 +205,9 @@ def exibir_jogos(lista_jogos):  # Auxiliar para excluir jogos
             print(f"{i}. ID: {jogo['jogo_id']} | Nome: {jogo['nome']} | Quantidade: {jogo['qtd']} | Preço de aluguel(diária): R$ {jogo['preco_aluguel']}")
             i += 1
 
-
+            
 def consultar_estoque(jogos):
+    global lista_clientes
     clear()
     print("Opção 'Consultar estoque' selecionada.\n")
     if not jogos:
@@ -253,7 +258,9 @@ def continua(menu):
     elif opcao == "2":  # NAO
         animacao_espera(TEMPO_CARREGAMENTO, "ENCERRANDO PROGRAMA...")
         if lista_jogos:
-            registra_estoque(lista_jogos, "estoque.json")
+            registra_json(lista_jogos, "estoque.json")
+        if lista_clientes:
+            registra_json(lista_clientes, "clientes.json")
         sys.exit()
     else:
         print("\nOpção inválida! Tente novamente.\n")
@@ -268,9 +275,7 @@ def clear():
         os.system('clear')
 
 # main
-lista_jogos = ler_estoque("estoque.json")
+lista_jogos = ler_json("estoque.json")
+lista_clientes = ler_json("clientes.json")
 exibir_menu_principal()
-
-
-
 
