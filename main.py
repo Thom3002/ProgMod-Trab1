@@ -6,8 +6,10 @@ from time import sleep
 import json
 
 TEMPO_CARREGAMENTO = 1.5
+LOGIN_FEITO = False
 lista_clientes = []
 lista_jogos = []
+global nome_cliente 
 
 
 # Definição de funções
@@ -62,29 +64,53 @@ def exibir_menu_principal():  # MENU PRINCIPAL
 
 
 def exibir_menu_cliente():  # MENU CLIENTE
+    global lista_clientes
+    global lista_jogos
+    global LOGIN_FEITO
     clear()
-    print("__________________________")
-    print("MENU CLIENTE\n")
-    print("1 - Alugar jogo")
-    print("2 - Retornar jogo")
-    print("3 - Voltar")
-    print("__________________________\n")
-    opcao = input("Escolha uma opção: ")
+    
+    if LOGIN_FEITO:
+        print(f"Olá {nome_cliente}. Seja bem vindo à locadora!")
+        print()
+        print("__________________________")
+        print("MENU CLIENTE\n")
+        print("1 - Alugar jogo")
+        print("2 - Retornar jogo")
+        print("3 - Voltar")
+        print("\n\n4 - Logout")
+        print("__________________________\n")
+        opcao = input("Escolha uma opção: ")
 
-    if opcao == "1":
-        alugar_jogo()
-    elif opcao == "2":
-        retornar_jogo()
-    elif opcao == "3":  # Voltar
-        clear()
-        animacao_espera(TEMPO_CARREGAMENTO, "REDIRECIONANDO PARA MENU PRINCIPAL")
-        exibir_menu_principal()
+        if opcao == "1":
+            alugar_jogo()
+        elif opcao == "2":
+            retornar_jogo()
+        elif opcao == "3":  # Voltar
+            clear()
+            animacao_espera(TEMPO_CARREGAMENTO, "REDIRECIONANDO PARA MENU PRINCIPAL")
+            exibir_menu_principal()
+        elif opcao == "4": # Logout
+            LOGIN_FEITO = False
+            clear()
+            print("Logout selecionado.\n")
+            animacao_espera(TEMPO_CARREGAMENTO, "REDIRECIONANDO PARA MENU PRINCIPAL")
+            exibir_menu_principal()
+        else:
+            print("\nOpção inválida! Tente novamente.\n")
+            animacao_espera(TEMPO_CARREGAMENTO, "Aguarde um momento...")
+            exibir_menu_cliente()
+        continua("cliente")
+        
     else:
-        print("\nOpção inválida! Tente novamente.\n")
-        animacao_espera(TEMPO_CARREGAMENTO, "Aguarde um momento...")
-        exibir_menu_cliente()
-    continua("cliente")
-
+        if valida_cliente(lista_clientes) == False:
+            print("Cliente não cadastrado. Favor faça seu cadastro: \n")
+            lista_clientes = cadastrar_cliente(lista_clientes)
+            continua("cliente")
+        else:
+            animacao_espera(TEMPO_CARREGAMENTO, "LOGIN REALIZADO COM SUCESSO! REDIRECIONANDO PARA O MENU CLIENTE...")
+            LOGIN_FEITO = True
+            exibir_menu_cliente()
+            
 
 def exibir_menu_locadora():  # MENU LOCADORA
     clear()
@@ -102,11 +128,13 @@ def exibir_menu_locadora():  # MENU LOCADORA
     print("5 - Transações")
     print("6 - Registro de Aluguel")
     print("7 - Alterar dados")
-    print("8 - Voltar")
+    print("8 - Exibir clientes")
+    print("9 - Voltar")
     print("__________________________\n")
     opcao = input("Escolha uma opção: ")
 
     if opcao == "1":
+        clear()
         lista_clientes = cadastrar_cliente(lista_clientes)
     elif opcao == "2":
         lista_jogos = cadastrar_jogo(lista_jogos)
@@ -123,7 +151,9 @@ def exibir_menu_locadora():  # MENU LOCADORA
         registro_aluguel()
     elif opcao == "7":
         alterar_dados()
-    elif opcao == "8":  # Voltar
+    elif opcao == "8":
+        exibir_clientes(lista_clientes)
+    elif opcao == "9":  # Voltar
         clear()
         animacao_espera(TEMPO_CARREGAMENTO, "REDIRECIONANDO PARA MENU PRINCIPAL")
         exibir_menu_principal()
@@ -137,26 +167,35 @@ def exibir_menu_locadora():  # MENU LOCADORA
 
 
 # FUNCOES CLIENTE
-def alugar_jogo():
+def alugar_jogo(lista_jogos, lista_clientes):
     clear()
     print("Opção 'Alugar jogo' selecionada.\n")
+    exibir_jogos(lista_jogos)
 
 
 def retornar_jogo():
     clear()
     print("Opção 'Retornar jogo' selecionada.\n")
   
+def valida_cliente(lista_clientes): # verifica se o cliente existe no cadastro tipo um login
+    global nome_cliente
+    clear()
+    nome_cliente = input("LOGIN\nPara continuar, digite seu nome: ")
+    for cliente in lista_clientes:
+        if cliente['nome'] == nome_cliente:
+            return True
+    return False
 
 # FUNCOES LOCADORA
 def cadastrar_cliente(lista_clientes):
-    clear()
     nome = input("Digite o nome do cliente: ")
     cpf = input("Digite o CPF do cliente: ")
     email = input("Digite o e-mail do cliente: ")
 
     clientes = {'nome': nome, 'cpf': cpf, 'email': email}
     lista_clientes.append(clientes)
-    print(lista_clientes)
+    print("Cliente cadastrado com sucesso!")
+    # print(lista_clientes)
     return lista_clientes
 
 
@@ -174,7 +213,6 @@ def cadastrar_jogo(lista_jogos):
 
 
 def excluir_jogo(lista_jogos):
-    # Função auxiliar para exibir os jogos
     clear()
     print("Opção 'Excluir jogo' selecionada.\n")
     if not lista_jogos:
@@ -205,7 +243,18 @@ def exibir_jogos(lista_jogos):  # Auxiliar para excluir jogos
             print(f"{i}. ID: {jogo['jogo_id']} | Nome: {jogo['nome']} | Quantidade: {jogo['qtd']} | Preço de aluguel(diária): R$ {jogo['preco_aluguel']}")
             i += 1
 
-            
+def exibir_clientes(lista_clientes):  
+    clear()
+    print("Opção 'Exibir clientes' selecionada.\n")
+    if not lista_clientes:
+        print("A lista de clientes está vazia.")
+    else:
+        print("Lista de clientes cadastrados:")
+        i = 1
+        for cliente in lista_clientes:
+            print(f"{i}. Nome: {cliente['nome']} | CPF: {cliente['cpf']} | E-mail: {cliente['email']}")
+            i += 1
+                        
 def consultar_estoque(jogos):
     global lista_clientes
     clear()
