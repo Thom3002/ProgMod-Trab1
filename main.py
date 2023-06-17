@@ -118,7 +118,7 @@ def exibir_menu_locadora():  # MENU LOCADORA
     global lista_clientes
 
     print("Estoque atual:")
-    print(lista_jogos)
+    exibir_jogos(lista_jogos)
     print("__________________________")
     print("MENU LOCADORA\n")
     print("1 - Cadastrar cliente")
@@ -180,7 +180,8 @@ def retornar_jogo():
 def valida_cliente(lista_clientes): # verifica se o cliente existe no cadastro tipo um login
     global nome_cliente
     clear()
-    nome_cliente = input("LOGIN\nPara continuar, digite seu nome: ")
+    print("LOGIN:\n")
+    nome_cliente = input("Para continuar, digite seu nome: ")
     for cliente in lista_clientes:
         if cliente['nome'] == nome_cliente:
             return True
@@ -240,7 +241,8 @@ def exibir_jogos(lista_jogos):  # Auxiliar para excluir jogos
         print("Jogos disponíveis:")
         i = 1
         for jogo in lista_jogos:
-            print(f"{i}. ID: {jogo['jogo_id']} | Nome: {jogo['nome']} | Quantidade: {jogo['qtd']} | Preço de aluguel(diária): R$ {jogo['preco_aluguel']}")
+            print(f"{str(i).ljust(3)} | ID: {str(jogo['jogo_id']).ljust(4)} | Nome: {jogo['nome'].ljust(20)} | Quantidade: {str(jogo['qtd']).ljust(4)} | Preço de aluguel(diária): R$ {str(jogo['preco_aluguel']).ljust(5)}")
+
             i += 1
 
 def exibir_clientes(lista_clientes):  
@@ -252,7 +254,8 @@ def exibir_clientes(lista_clientes):
         print("Lista de clientes cadastrados:")
         i = 1
         for cliente in lista_clientes:
-            print(f"{i}. Nome: {cliente['nome']} | CPF: {cliente['cpf']} | E-mail: {cliente['email']}")
+            print(f"{str(i).ljust(3)} | Nome: {cliente['nome'].ljust(25)} | CPF: {cliente['cpf'].ljust(14)} | E-mail: {cliente['email']}")
+
             i += 1
                         
 def consultar_estoque(jogos):
