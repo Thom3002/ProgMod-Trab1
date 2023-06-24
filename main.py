@@ -57,9 +57,19 @@ def registra_saldo_arquivo(saldo):
 
 def registra_pedidos(nome_jogo, quantidade):
     pedido = {"nome": nome_jogo, "qtd": quantidade}
-    with open('pedidos.json', 'a') as arquivo:
-        json.dump(pedido, arquivo, ensure_ascii=False, indent=4)
-        arquivo.write('\n')
+    
+    # Verifica se o arquivo já existe
+    try:
+        with open('pedidos.json', 'r') as arquivo:
+            lista_pedidos = json.load(arquivo)
+    except FileNotFoundError:
+        lista_pedidos = []
+    
+    # Adiciona o novo pedido à lista
+    lista_pedidos.append(pedido)
+    
+    with open('pedidos.json', 'w') as arquivo:
+        json.dump(lista_pedidos, arquivo, ensure_ascii=False, indent=4)
 
 def exibir_menu_principal():  # MENU PRINCIPAL
     clear()
@@ -149,7 +159,7 @@ def exibir_menu_locadora():  # MENU LOCADORA
     global lista_clientes
     # print("__________________________")
     # exibir_jogos(lista_jogos)
-    print("\nSaldo da loja: R$ {}".format(saldo))
+    print("Saldo da loja: R$ {}".format(saldo))
     print("__________________________")
     print("MENU LOCADORA\n")
     print("1 - Cadastrar cliente")
