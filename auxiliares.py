@@ -2,8 +2,7 @@ import os
 import platform
 from time import sleep
 import json
-
-
+import sys
 
 # Variáveis globais
 TEMPO_CARREGAMENTO = 1 # tempo da animacao de carregamento

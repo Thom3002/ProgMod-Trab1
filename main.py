@@ -1,12 +1,6 @@
-import os
-import platform
-import sys
-from time import sleep
-import json
-
-from cliente import *
-from locadora import *
-from auxiliares import *
+from cliente import * # Modulo cliente
+from locadora import * # Modulo locadora
+from auxiliares import * # Modulo com funcoes auxiliares + importacao de bibliotecas + variaveis globais
 
 # Definição de funções
 
