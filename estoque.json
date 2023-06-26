@@ -16,7 +16,7 @@
     {
         "jogo_id": "4",
         "nome": "Ludo",
-        "qtd": 0,
+        "qtd": 66,
         "preco_aluguel": 5,
         "cont": 2
     },
@@ -37,8 +37,8 @@
     {
         "jogo_id": "9",
         "nome": "Monopoly",
-        "qtd": 1,
+        "qtd": 37,
         "preco_aluguel": 5,
-        "cont": 0
+        "cont": 2
     }
 ]

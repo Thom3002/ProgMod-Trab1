@@ -45,14 +45,20 @@ def registra_saldo_arquivo(saldo):
 
 def exibir_menu_principal():  # MENU PRINCIPAL
     clear()
-    print("__________________________")
-    print("MENU PRINCIPAL\n")
-    print("1 - Cliente")
-    print("2 - Locadora")
-
-    print("\n0 - Encerrar programa")
-
-    print("__________________________\n")
+    if fornecedor_respondeu():
+        print("__________________________")
+        print("MENU PRINCIPAL\n")
+        print("1 - Cliente")
+        print("2 - Locadora (Notificação: Fornecedor respondeu!)")
+        print("\n0 - Encerrar programa")
+        print("__________________________\n")
+    else:
+        print("__________________________")
+        print("MENU PRINCIPAL\n")
+        print("1 - Cliente")
+        print("2 - Locadora")
+        print("\n0 - Encerrar programa")
+        print("__________________________\n")
     opcao = input("Escolha uma opção: ")
 
     if opcao == "1":
@@ -135,8 +141,10 @@ def exibir_menu_locadora():  # MENU LOCADORA
     global saldo
     global lista_jogos
     global lista_clientes
-    # print("__________________________")
-    # exibir_jogos(lista_jogos)
+    if fornecedor_respondeu():
+        lista_jogos, saldo = ler_resposta_json(lista_jogos, saldo)
+        if lista_jogos:
+            registra_json(lista_jogos, "estoque.json")
     print("Saldo da loja: R$ {}".format(saldo))
     print("__________________________")
     print("MENU LOCADORA\n")
@@ -174,12 +182,6 @@ def exibir_menu_locadora():  # MENU LOCADORA
         exibir_menu_locadora()
         
     continua("locadora") #volta para o menu locadora
-
-
-# FUNCOES CLIENTE 
-
-# FUNCOES LOCADORA
-
 
 # OUTRAS FUNÇOES
 def continua(menu):
