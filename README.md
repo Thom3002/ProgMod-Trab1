@@ -1,6 +1,8 @@
-# Aplicação Locadora - Trabalho de programação modular - INF1301
+# Trabalho de programação modular - INF1301 
 
-### Grupo 8
+## Aplicação Locadora  
+
+### Integrantes
 
 - Thomas de Mello Oliva
 - Natalia Grossmann
