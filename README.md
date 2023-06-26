@@ -1,16 +1,16 @@
-### Aplicação Locadora - Trabalho de programação modular - INF1301 - Professor: Flávio Bevilacqua
+# Aplicação Locadora - Trabalho de programação modular - INF1301 - 
 
-
-
-# Grupo 8
+### Grupo 8
 
 - Thomas de Mello Oliva
 - Natalia Grossmann
 - Rodrigo Kauer
 
+Professor: Flávio Bevilacqua
+
 A aplicação Locadora consiste em um sistema de controle básico para uma loja de jogos de tabuleiro. O sistema permite o aluguel de jogos durante uma semana e também a reserva de jogos para jogar na própria loja durante um dia.
 
-# Funcionalidades do sistema:
+## Funcionalidades do sistema:
 - Cadastro de pessoas que alugam os jogos;
 - Controle de aluguel de jogos com base na disponibilidade da loja;
 - Estoque de dois jogos de cada tipo em cada loja;
@@ -23,6 +23,6 @@ A aplicação Locadora consiste em um sistema de controle básico para uma loja 
 - Cadastro de pessoas:
   
 
-# Sobre o trabalho
+## Sobre o trabalho
 Esse trabalho foi desenvolvido como parte do curso de programação modular e busca aplicar os conceitos aprendidos na disciplina.
 O trabalho foi desenvolvido em Python, seguindo as boas práticas de programação modular.
